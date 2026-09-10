@@ -1,0 +1,28 @@
+# --- Salida del build (se regenera con 'mvn package', nunca se commitea) ---
+target/
+*.class
+*.jar
+*.war
+
+# --- IDEs ---
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+
+# --- Sistema operativo ---
+.DS_Store
+Thumbs.db
+
+# --- Logs y datos locales ---
+*.log
+data/
+
+# --- Secretos: cualquier config con credenciales reales ---
+.env
+src/main/resources/application-prod.properties
+
+# Scripts de mantenimiento, no forman parte del proyecto
+*.ps1

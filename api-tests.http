@@ -1,0 +1,35 @@
+### Pruebas rapidas de la API (VS Code: extension "REST Client"; IntelliJ: soporte nativo)
+@host = http://localhost:8080/api
+
+### Registrar profesor
+POST {{host}}/sign_up
+Content-Type: application/json
+
+{ "nombre": "Ana Torres", "email": "ana@treino.com", "password": "secreto123" }
+
+### Registrar usuario/alumno
+POST {{host}}/crear_usuario
+Content-Type: application/json
+
+{ "nombre": "Bruno Diaz", "email": "bruno@treino.com", "password": "secreto123" }
+
+### Login (deberia devolver 200 y NO incluir el campo password)
+POST {{host}}/login
+Content-Type: application/json
+
+{ "email": "ana@treino.com", "password": "secreto123" }
+
+### Login con password incorrecta (deberia devolver 404)
+POST {{host}}/login
+Content-Type: application/json
+
+{ "email": "ana@treino.com", "password": "incorrecta" }
+
+### Listar profesores
+GET {{host}}/profesores
+
+### Listar usuarios
+GET {{host}}/usuarios
+
+### Buscar profesor por email
+GET {{host}}/find_profesor?email=ana@treino.com

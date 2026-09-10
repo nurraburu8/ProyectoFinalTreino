@@ -1,0 +1,5 @@
+# Normaliza saltos de linea (evita diffs gigantes entre Windows y Linux)
+* text=auto
+
+# Que GitHub cuente bien los lenguajes del repo
+*.java linguist-language=Java
