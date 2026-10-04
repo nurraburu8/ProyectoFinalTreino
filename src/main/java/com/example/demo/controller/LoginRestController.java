@@ -3,6 +3,11 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +28,7 @@ import com.example.demo.service.IAdminService;
 import com.example.demo.service.IProfesorService;
 import com.example.demo.service.IUsuarioService;
 
+@Tag(name = "Autenticacion", description = "Login unificado para profesores, alumnos y administradores")
 @RestController
 @RequestMapping("/api")
 public class LoginRestController {
@@ -39,8 +45,15 @@ public class LoginRestController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Operation(summary = "Iniciar sesion",
+	           description = "Verifica las credenciales contra profesores, alumnos y administradores, en ese orden. La contrasena se compara contra el hash BCrypt almacenado; la respuesta nunca incluye el campo password.")
+	@ApiResponses({
+	    @ApiResponse(responseCode = "200", description = "Credenciales correctas. Devuelve la cuenta encontrada, con el campo 'type' indicando si es profesor, usuario o admin"),
+	    @ApiResponse(responseCode = "400", description = "Email o contrasena ausentes, o email con formato invalido"),
+	    @ApiResponse(responseCode = "404", description = "No existe esa cuenta o la contrasena no coincide")
+	})
 	@PostMapping("login")
-	public ResponseEntity<?> loginUsuario(@RequestBody LoginRequest loginRequest){
+	public ResponseEntity<?> loginUsuario(@Valid @RequestBody LoginRequest loginRequest){
 	    String email = loginRequest.getEmail();
 	    String password = loginRequest.getPassword();
 	    

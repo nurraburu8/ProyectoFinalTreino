@@ -1,37 +1,42 @@
 package com.example.demo.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+@Schema(description = "Credenciales de acceso")
 public class LoginRequest {
+
+    @Schema(example = "ana@treino.com")
+    @NotBlank(message = "el email es obligatorio")
+    @Email(message = "el email no tiene un formato valido")
     private String email;
+
+    @Schema(example = "secreto123")
+    @NotBlank(message = "la contrasena es obligatoria")
     private String password;
 
-    // Constructor vacío (necesario para deserialización)
     public LoginRequest() {
     }
 
-    // Constructor con parámetros (opcional)
     public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    // Getter para email
     public String getEmail() {
         return email;
     }
 
-    // Setter para email
     public void setEmail(String email) {
         this.email = email;
     }
 
-    // Getter para password
     public String getPassword() {
         return password;
     }
 
-    // Setter para password
     public void setPassword(String password) {
         this.password = password;
     }
 }
-

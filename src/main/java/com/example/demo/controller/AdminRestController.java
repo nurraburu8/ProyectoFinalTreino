@@ -1,5 +1,10 @@
 package com.example.demo.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +20,7 @@ import com.example.demo.entity.Rol;
 import com.example.demo.entity.Usuario;
 import com.example.demo.service.IAdminService;
 
+@Tag(name = "Administradores", description = "Alta de cuentas de administrador")
 @RestController
 @RequestMapping("/api")
 public class AdminRestController {
@@ -25,8 +31,15 @@ public class AdminRestController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Operation(summary = "Registrar un administrador",
+	           description = "Crea una cuenta con rol ADMIN. La contrasena se almacena cifrada con BCrypt.")
+	@ApiResponses({
+	    @ApiResponse(responseCode = "201", description = "Administrador creado"),
+	    @ApiResponse(responseCode = "400", description = "Datos invalidos (nombre vacio, email mal formado o contrasena menor a 8 caracteres)"),
+	    @ApiResponse(responseCode = "409", description = "Ya existe una cuenta con ese email")
+	})
 	@PostMapping("/crear_admin")
-	public ResponseEntity<?> agregarAdmin(@RequestBody SignUpRequest signUpRequest){
+	public ResponseEntity<?> agregarAdmin(@Valid @RequestBody SignUpRequest signUpRequest){
 		String email = signUpRequest.getEmail();
 		
 		if(adminService.findAdminByEmail(email) != null) {

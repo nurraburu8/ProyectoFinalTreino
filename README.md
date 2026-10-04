@@ -10,6 +10,7 @@ Proyecto final de carrera (Analista Programador, Universidad ORT), reacondiciona
 - Spring Data JPA / Hibernate
 - MySQL (producción) · H2 en memoria (desarrollo local)
 - BCrypt para el hash de contraseñas
+- springdoc-openapi (Swagger UI) para la documentación interactiva
 - Maven
 
 ## Arquitectura
@@ -36,7 +37,11 @@ No necesitás instalar MySQL: el perfil `local` levanta una base H2 en memoria.
 mvn spring-boot:run "-Dspring-boot.run.profiles=local"
 ```
 
-La API queda en `http://localhost:8080`. Consola de la base en `http://localhost:8080/h2` (JDBC URL `jdbc:h2:mem:treino`, usuario `sa`, sin contraseña).
+La API queda en `http://localhost:8080`.
+
+- **Documentación interactiva: http://localhost:8080/docs** — lista todos los endpoints y permite probarlos desde el navegador.
+- Especificación OpenAPI en crudo: `http://localhost:8080/v3/api-docs`
+- Consola de la base: `http://localhost:8080/h2` (JDBC URL `jdbc:h2:mem:treino`, usuario `sa`, sin contraseña)
 
 ## Correr contra MySQL
 
@@ -53,7 +58,7 @@ Variables opcionales: `PORT` (default 8080) y `CORS_ORIGINS` (lista separada por
 
 ## Endpoints
 
-Todos cuelgan de `/api`.
+Todos cuelgan de `/api`. La forma más cómoda de explorarlos es `/docs`.
 
 ### Auth
 | Método | Ruta | Descripción |
@@ -100,6 +105,8 @@ Este es un proyecto académico reacondicionado. Lo que falta para considerarlo l
 - **Sin autorización por rol.** El enum `Rol` existe pero no se usa para restringir accesos.
 - **Fotos como BLOB en la base.** Deberían ir a un bucket u object storage.
 - **Cobertura de tests mínima.**
+
+Lo que sí está resuelto: contraseñas cifradas con BCrypt y nunca expuestas en las respuestas, validación de los datos de entrada, manejo centralizado de errores, credenciales fuera del código y documentación interactiva.
 
 ## Ejemplos
 
